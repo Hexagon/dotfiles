@@ -112,13 +112,13 @@ if ! shopt -oq posix; then
 fi
 
 # Always have bun in path if available 
-if [ -f "$HOME/.bun" ]; then
+if [ -d "$HOME/.bun" ]; then
     export BUN_INSTALL="$HOME/.bun" 
     export PATH="$BUN_INSTALL/bin:$PATH" 
 fi
 
 # Always have deno in path
-if [ -f "$HOME/.deno" ]; then
+if [ -d "$HOME/.deno" ]; then
     export DENO_INSTALL="$HOME/.deno"
     export PATH="$DENO_INSTALL/bin:$PATH"
 fi
