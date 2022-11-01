@@ -1,2 +1,5 @@
 #!/usr/bin/env bash
+
+# This is a test of a globally available script
+
 echo "Testcmd works !"
