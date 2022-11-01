@@ -122,3 +122,9 @@ if [ -d "$HOME/.deno" ]; then
     export DENO_INSTALL="$HOME/.deno"
     export PATH="$DENO_INSTALL/bin:$PATH"
 fi
+
+# Always have global dotfile scripts in path
+if [ -d "$HOME/scripts/global" ]; then
+    export DOTFILES_GLOBAL_SCRIPTS="$HOME/scripts/global"
+    export PATH="$DOTFILES_GLOBAL_SCRIPTS:$PATH"
+fi
