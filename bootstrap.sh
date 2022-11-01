@@ -17,7 +17,7 @@ function doIt() {
 
 function activateShell() {
 	echo "Sourcing bash_profile"
-	source ~/.bash_profile;
+	source ~/.bashrc;
 }
 
 if [[ -v CODESPACES ]]; then
@@ -25,7 +25,7 @@ if [[ -v CODESPACES ]]; then
     ./scripts/install_bun.sh
     ./scripts/install_deno.sh
     doIt;
-	activateShell;
+    activateShell;
 else
     if [ "$1" == "--force" -o "$1" == "-f" ]; then
     	doIt;
