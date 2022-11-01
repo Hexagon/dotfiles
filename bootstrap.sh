@@ -4,7 +4,7 @@ cd "$(dirname "${BASH_SOURCE}")";
 
 git pull origin main;
 
-function doSync() {
+function doIt() {
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude ".osx" \
