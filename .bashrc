@@ -128,3 +128,7 @@ if [ -d "$HOME/scripts/global" ]; then
     export DOTFILES_GLOBAL_SCRIPTS="$HOME/scripts/global"
     export PATH="$DOTFILES_GLOBAL_SCRIPTS:$PATH"
 fi
+
+# Set default editor to nano
+export EDITOR='nano'
+export VISUAL='nano'
