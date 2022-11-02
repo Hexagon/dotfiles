@@ -1,6 +1,9 @@
-# Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
+# THIS FILE IS PART OF THE DOTFILES REPO
+# PLEASE DO NOT EDIT DIRECTLY.
+# 
+# CREATE/EDIT .extra OR .path FOR LOCAL CUSTOMIZATIONS
+
+# Load the shell dotfiles
 for file in ~/.{path,bash_prompt,exports,bash_aliases,dotfiles_dir,extra}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
@@ -37,4 +40,30 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+fi
+
+
+# Always have bun in path if available 
+if [ -d "$HOME/.bun" ]; then
+    export BUN_INSTALL="$HOME/.bun" 
+    export PATH="$BUN_INSTALL/bin:$PATH" 
+fi
+
+# Always have deno in path if available
+if [ -d "$HOME/.deno" ]; then
+    export DENO_INSTALL="$HOME/.deno"
+    export PATH="$DENO_INSTALL/bin:$PATH"
+fi
+
+# Always have NVM in path if available
+if [ -d "$HOME/.nvm" ]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
+# Always have global dotfile scripts in path
+if [ -d "$HOME/scripts/global" ]; then
+    export DOTFILES_GLOBAL_SCRIPTS="$HOME/scripts/global"
+    export PATH="$DOTFILES_GLOBAL_SCRIPTS:$PATH"
 fi

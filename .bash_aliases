@@ -1,3 +1,8 @@
+# THIS FILE IS PART OF THE DOTFILES REPO
+# PLEASE DO NOT EDIT DIRECTLY.
+# 
+# CREATE/EDIT .extra OR .path FOR LOCAL CUSTOMIZATIONS
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
