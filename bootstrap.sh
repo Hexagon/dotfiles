@@ -12,10 +12,6 @@ function doIt() {
 		--exclude "README.md" \
 		--exclude "LICENSE-MIT.txt" \
 		-avh --no-perms . ~;
-}
-
-function activateShell() {
-	echo "Sourcing bash_profile"
 	source ~/.bashrc;
 }
 
@@ -24,20 +20,16 @@ if [[ -v CODESPACES ]]; then
     ./scripts/install_bun.sh
     ./scripts/install_deno.sh
     doIt;
-    activateShell;
 else
     if [ "$1" == "--force" -o "$1" == "-f" ]; then
     	doIt;
-		activateShell;
     else
     	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
     	echo "";
     	if [[ $REPLY =~ ^[Yy]$ ]]; then
     		doIt;
-			activateShell;
     	fi;
     fi;
 fi;
 
 unset doSync;
-unset activateShell;
