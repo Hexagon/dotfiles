@@ -19,12 +19,44 @@ function doIt() {
 	# Source dotfiles instantly
 	source ~/.bash_profile;
 
+	echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo -e "\n Dotfiles sucessfully installed/updated"
+	echo -e "\n Use .path or .extra for local customizations"
+	echo -e "\n Globally available scripts:"
+	for file in ~/scripts/global/*; do
+		FNAME=`basename "$file"`;
+		SOURCE_FPATH="$DOTFILES_SOURCE_DIR/scripts/global/$FNAME";
+		if [[ -f $SOURCE_FPATH ]]; then
+			echo -e "\t[synced] $FNAME";
+		else
+			echo -e "\t[local!] $FNAME";
+		fi;
+		unset FNAME;
+	done;
+	unset file;
+	echo -e "\n Scripts available in ~/scripts:"
+	for file in ~/scripts/*; do
+		FNAME=`basename "$file"`;
+		if [[ -f $file ]]; then
+			SOURCE_FPATH="$DOTFILES_SOURCE_DIR/scripts/$FNAME";
+			if [[ -f $SOURCE_FPATH ]]; then
+				echo -e "\t[synced] $FNAME";
+			else
+				echo -e "\t[local!] $FNAME";
+			fi;
+		fi;
+		unset FNAME;
+	done;
+	unset file;
+	echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 }
 
 if [[ -v CODESPACES ]]; then
-    echo "Codespaces detected, auto installing Deno and Bun"
+    echo "\nCodespaces detected, auto installing Deno and Bun\n"
+
     ./scripts/install_bun.sh
     ./scripts/install_deno.sh
+
     doIt;
 else
     if [ "$1" == "--force" -o "$1" == "-f" ]; then
