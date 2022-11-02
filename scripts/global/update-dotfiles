@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Enter the directory of this script
+cd "${DOTFILES_SOURCE_DIR}";
+
+# Pull changes from git
+git pull origin;
+
+# Run bootstrapper
+source bootstrap.sh;

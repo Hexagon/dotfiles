@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd "$(dirname "${BASH_SOURCE}")";
-
-git pull origin main;
+cd "$CURRENT_DIR";
 
 function doIt() {
+	# Copy files
 	rsync --exclude ".git/" \
 		--exclude ".DS_Store" \
 		--exclude ".osx" \
@@ -12,7 +12,13 @@ function doIt() {
 		--exclude "README.md" \
 		--exclude "LICENSE-MIT.txt" \
 		-avh --no-perms . ~;
-	source ~/.bashrc;
+
+	# Store dotfiles source directory in ~/.dotfiles_dir
+	echo -e "export DOTFILES_SOURCE_DIR='$CURRENT_DIR'\n" > ~/.dotfiles_dir;
+
+	# Source dotfiles instantly
+	source ~/.bash_profile;
+
 }
 
 if [[ -v CODESPACES ]]; then
