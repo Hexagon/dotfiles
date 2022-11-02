@@ -24,11 +24,21 @@ function upload() {
 
     cd ..;
 
+    # Review changes
+    echo -e "\nChanges synced from home directory, please review git status:\n"
+    git status;
+    read -p "Continue (yes/no)? " -n 1 -r
+    echo    # (optional) move to a new line
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        exit 1
+    fi
+
     # Commit and push
     git add .
     git commit -m "Automated sync"
     git push origin
-    
+
 }
 function download() {
     
