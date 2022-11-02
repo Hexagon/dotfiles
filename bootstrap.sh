@@ -1,73 +1,70 @@
 #!/usr/bin/env bash
-CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-cd "$CURRENT_DIR";
+# Store the directory of this script in CURRENT_DIR
+CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 
-function doIt() {
-	# Copy files
-	rsync --exclude ".git/" \
-		--exclude ".DS_Store" \
-		--exclude ".osx" \
-		--exclude "bootstrap.sh" \
-		--exclude "README.md" \
-		--exclude "LICENSE-MIT.txt" \
-		-avh --no-perms . ~;
+# Set content of ~/.dotfiles_dir to CURRENT_DIR
+echo -e "export DOTFILES_SOURCE_DIR='$CURRENT_DIR'\n" > ~/.dotfiles_dir;
 
-	# Store dotfiles source directory in ~/.dotfiles_dir
-	echo -e "export DOTFILES_SOURCE_DIR='$CURRENT_DIR'\n" > ~/.dotfiles_dir;
+# Instantly set DOTFILES_SOURCE_DIR by sourcing ~/.dotfiles_dir
+source ~/.dotfiles_dir;
 
+# Check that everything went well
+if ! [ "$CURRENT_DIR" = "$DOTFILES_SOURCE_DIR" ]; then
+	echo -e "Failed to export DOTFILES_SOURCE_DIR, exiting."
+	exit
+fi;
+
+# Enter .dotfiles_dir
+cd "$DOTFILES_SOURCE_DIR"
+
+# Force install dotfiles script
+mkdir -p ~/scripts/global/
+yes | cp ./static/scripts/global/dotfiles ~/scripts/global/
+
+function allDone() {
+	
 	# Source dotfiles instantly
 	source ~/.bash_profile;
 
 	echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 	echo -e "\n Dotfiles sucessfully installed/updated"
 	echo -e "\n Use .path or .extra for local customizations"
-	echo -e "\n Globally available scripts:"
-	for file in ~/scripts/global/*; do
-		FNAME=`basename "$file"`;
-		SOURCE_FPATH="$DOTFILES_SOURCE_DIR/scripts/global/$FNAME";
-		if [[ -f $SOURCE_FPATH ]]; then
-			echo -e "\t[synced] $FNAME";
-		else
-			echo -e "\t[local!] $FNAME";
-		fi;
-		unset FNAME;
-	done;
-	unset file;
-	echo -e "\n Scripts available in ~/scripts:"
-	for file in ~/scripts/*; do
-		FNAME=`basename "$file"`;
-		if [[ -f $file ]]; then
-			SOURCE_FPATH="$DOTFILES_SOURCE_DIR/scripts/$FNAME";
-			if [[ -f $SOURCE_FPATH ]]; then
-				echo -e "\t[synced] $FNAME";
-			else
-				echo -e "\t[local!] $FNAME";
-			fi;
-		fi;
-		unset FNAME;
-	done;
-	unset file;
+
+	source ~/scripts/motd.sh
+	
 	echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 }
 
 if [[ -v CODESPACES ]]; then
-    echo "\nCodespaces detected, auto installing Deno and Bun\n"
+    echo -e "\nCodespaces detected, auto installing Deno and Bun\n"
 
-    ./scripts/install_bun.sh
-    ./scripts/install_deno.sh
+	# Download dotfiles
+	~/scripts/global/dotfiles --download
+    
+	# Install deno/bun
+	~/scripts/install_bun.sh
+    ~/scripts/install_deno.sh
 
-    doIt;
+	allDone;
 else
     if [ "$1" == "--force" -o "$1" == "-f" ]; then
-    	doIt;
+
+		# Download dotfiles
+		~/scripts/global/dotfiles --download
+
+		allDone;
     else
     	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
     	echo "";
     	if [[ $REPLY =~ ^[Yy]$ ]]; then
-    		doIt;
+
+			# Download dotfiles
+			~/scripts/global/dotfiles --download
+
+			allDone;
     	fi;
     fi;
 fi;
 
-unset doSync;
+unset allDone;

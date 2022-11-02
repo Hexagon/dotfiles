@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+# Check arguments
+function usage() {
+    echo " $(basename $0) [-u,--upload|-d,--download|-f,--full]"
+    exit
+}
+function upload() {
+
+    # Enter dotfiles dir
+    cd "$DOTFILES_SOURCE_DIR"
+
+    # Make git up to date
+    git pull origin;
+
+    # Sync changes of synced files
+
+    # Enter synced folder
+    cd synced;
+
+    # Copy files
+    rsync --exclude ".git/" \
+		-rptgoE --existing ~ .;
+
+    cd ..;
+
+    # Commit and push
+    git add .
+    git commit -m "Automated sync"
+    git push origin
+    
+}
+function download() {
+    
+    # Enter dotfiles dir
+    cd "$DOTFILES_SOURCE_DIR"
+
+    # Make git up to date
+    git pull origin;
+
+   # Enter static folder
+	cd static;
+
+	# Copy files
+	rsync --exclude ".git/" \
+		-rptgoE . ~;
+
+    cd ..
+
+    # Enter template folder
+	cd static;
+
+	# Copy files
+	rsync --exclude ".git/" \
+		-rptgoE --ignore-existing . ~;
+
+    cd ..
+    
+    #Enter synced folder
+    cd synced;
+
+    # Copy files
+    rsync --exclude ".git/" \
+		-rptgoE . ~;
+
+    cd ..;
+
+	
+}
+function full() {
+    exit
+}
+if [ -z $1 ]; then
+    usage;
+fi
+case $1 in
+
+  -u|--upload)
+    upload
+    ;;
+
+  -d|--download)
+    download
+    ;;
+
+  -f|--full)
+    full
+    ;;
+
+  *)
+    usage
+    ;;
+esac
