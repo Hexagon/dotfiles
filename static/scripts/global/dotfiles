@@ -20,7 +20,7 @@ function upload() {
 
     # Copy files
     rsync --exclude ".git/" \
-		-rptgoE --ignore-non-existing ~ .;
+		-rptgoE --ignore-non-existing ~/ .;
 
     cd ..;
 
