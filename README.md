@@ -9,11 +9,11 @@
 
 After running bootstrap, the `dotfiles` command (`static/scripts/global/dotfiles`) will be globally available on your system, and is used like:
 
-`dotfiles --download` - sync from git repo to local
+`dotfiles -d|--download` - sync from git repo to local
 
-`dotfiles --upload` - sync from local to git repo
+`dotfiles -u|--upload` - sync from local to git repo
 
-`dotfiles --all` - to do a two way sync
+`dotfiles -f|--full` - to do a two way sync
 
 Sync is done using these rules 
 
