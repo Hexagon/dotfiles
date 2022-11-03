@@ -5,7 +5,7 @@ DF_TYPE="$3"
 
 # Check arguments
 function usage() {
-    echo " $(basename $0) [-u,--upload|-d,--download|-f,--full]"
+    echo " $(basename $0) [u,upload|d,download|f,full|a,add <filename> <static|templates|synced>]"
     exit
 }
 function upload() {
@@ -87,6 +87,10 @@ function full() {
 function add() {
   if [ -z "$DF_FILENAME" ]; then
       echo "Filename missing"
+      usage;
+  fi
+  if [ -f "$DF_FILENAME" ]; then
+      echo "File does not exist"
       usage;
   fi
   if [ -z "$DF_TYPE" ]; then
