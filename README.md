@@ -7,13 +7,19 @@
 
 ### Keeping in sync
 
-`dotfiles --download` to sync from git repo to local
-`dotfiles --upload` to sync from local to git repo
-`dotfiles --all` to do a two way sync
+After running bootstrap, the `dotfiles` command (`static/scripts/global/dotfiles`) will be globally available on your system, and is used like:
 
-Files in `static` is always copied from git repo to local on `--download`
-Files in `synced` copies the latest version two-way when you `--upload` or `--download`
-Files in `bootstrap` are copied to local if missing on `--download`, no further syncing is done
+`dotfiles --download` - sync from git repo to local
+
+`dotfiles --upload` - sync from local to git repo
+
+`dotfiles --all` - to do a two way sync
+
+Sync is done using these rules 
+
+*   Files in `static` is always copied from git repo to local on `--download`
+*   Files in `synced` copies the latest version two-way when you `--upload` or `--download`
+*   Files in `bootstrap` are copied to local if missing on `--download`, no further syncing is done
 
 ### Repo structure
 
@@ -37,6 +43,8 @@ Files in `bootstrap` are copied to local if missing on `--download`, no further 
 │   └── .ssh
 │       └── rc
 ├── synced                      # Files that are two way synced on --download or --upload
+│   └── .testsynceddotfile
+│
 └── templates                   # Files that are only copied to ~ if they do not already exist
     ├── .extra                  
     ├── .gitconfig
