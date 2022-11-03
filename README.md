@@ -3,24 +3,26 @@
 ### Getting started
 
 1. Checkout this repo on a suitable location, then enter the new folder
-2. Run `bootstrap.sh` to copy all relevant files in this repository to your home directory.
+2. Run `source bootstrap.sh` to initiate dotfiles command, copy all relevant files in this repository to your home directory and update current shell.
 3. Log out and in again, IMPORTANT.
 
 ### Keeping in sync
 
 After running bootstrap, the `dotfiles` command (`static/scripts/global/dotfiles`) will be globally available on your system, and is used like:
 
-`dotfiles -d|--download` - sync from git repo to local
+`dotfiles d|download` - sync from git repo to local
 
-`dotfiles -u|--upload` - sync from local to git repo
+`dotfiles u|upload` - sync from local to git repo
 
-`dotfiles -f|--full` - to do a two way sync
+`dotfiles f|full` - to do a two way sync
+
+`dotfiles a|add <filename> static|synced|templates` - to add a new file to the dotfiles repo
 
 Sync is done using these rules 
 
-*   Files in `static` is always copied from git repo to local on `--download`
-*   Files in `synced` copies the latest version two-way when you `--upload` or `--download`
-*   Files in `bootstrap` are copied to local if missing on `--download`, no further syncing is done
+*   Files in `static` is always copied from git repo to local on `download`
+*   Files in `synced` copies the latest version two-way when you `upload` or `download`
+*   Files in `bootstrap` are copied to local if missing on `download`, no further syncing is done
 
 ### Repo structure
 

@@ -3,99 +3,101 @@
 DF_FILENAME="$2"
 DF_TYPE="$3"
 
-# Check arguments
 function usage() {
-    echo " $(basename $0) [u,upload|d,download|f,full|a,add <filename> <static|templates|synced>]"
-    exit
+  echo " $(basename $0) [u,upload|d,download|f,full|a,add <filename> <static|templates|synced>]"
+  exit
 }
+
 function upload() {
 
-    # Enter dotfiles dir
-    cd "$DOTFILES_SOURCE_DIR"
+  # Enter dotfiles dir
+  cd "$DOTFILES_SOURCE_DIR"
 
-    # Make git up to date
-    git pull origin;
+  # Make git up to date
+  git pull origin;
 
-    # Sync changes of synced files
+  # Sync changes of synced files
 
-    # Enter synced folder
-    cd synced;
+  # Enter synced folder
+  cd synced;
 
-    # Copy files
-    rsync --exclude ".git/" \
-		-rptgoE --ignore-non-existing ~/ .;
+  # Copy files
+  rsync --exclude ".git/" \
+  -rptgoE --ignore-non-existing ~/ .;
 
-    cd ..;
+  cd ..;
 
-    # Review changes
-    echo -e "\nChanges synced from home directory, please review git status:\n"
-    git status;
-    read -p "Continue (yes/no)? " -n 1 -r
-    echo    # (optional) move to a new line
-    if [[ ! $REPLY =~ ^[Yy]$ ]]
-    then
-        exit 1
-    fi
+  # Review changes
+  echo -e "\nChanges synced from home directory, please review git status:\n"
+  git status;
+  read -p "Continue (yes/no)? " -n 1 -r
+  echo    # (optional) move to a new line
+  if [[ ! $REPLY =~ ^[Yy]$ ]]
+  then
+    exit 1
+  fi
 
-    # Commit and push
-    git add .
-    git commit -m "Automated sync"
-    git push origin
+  # Commit and push
+  git add .
+  git commit -m "Automated sync"
+  git push origin
 
 }
+
 function download() {
-    
-    # Enter dotfiles dir
-    cd "$DOTFILES_SOURCE_DIR"
+  
+  # Enter dotfiles dir
+  cd "$DOTFILES_SOURCE_DIR"
 
-    # Make git up to date
-    git pull origin;
+  # Make git up to date
+  git pull origin;
 
-   # Enter static folder
+  # Enter static folder
 	cd static;
 
 	# Copy files
 	rsync --exclude ".git/" \
 		-rptgoE . ~;
 
-    cd ..
+  cd ..
 
-    # Enter template folder
+  # Enter template folder
 	cd templates;
 
 	# Copy files
 	rsync --exclude ".git/" \
-		-rptgoE --ignore-existing . ~;
+	-rptgoE --ignore-existing . ~;
 
-    cd ..
-    
-    #Enter synced folder
-    cd synced;
+  cd ..
+  
+  #Enter synced folder
+  cd synced;
 
-    # Copy files
-    rsync --exclude ".git/" \
-		--update -rptgoE . ~;
+  # Copy files
+  rsync --exclude ".git/" \
+  --update -rptgoE . ~;
 
-    cd ..;
+  cd ..;
 
-	
 }
+
 function full() {
     download
     upload
 }
+
 function add() {
   if [ -z "$DF_FILENAME" ]; then
-      echo "Filename missing"
-      usage;
+    echo "Filename missing"
+    usage;
   fi
   if ! [[ -f "$DF_FILENAME" ]]; then
-      echo "File does not exist"
-      usage;
+    echo "File does not exist"
+    usage;
   fi
   if [ -z "$DF_TYPE" ]; then
-      echo "Type missing"
-      usage;
+    echo "Type missing"
+    usage;
   fi
   if ! [[ -d "$DOTFILES_SOURCE_DIR/$DF_TYPE" ]]; then
     echo "Invalid dotfile type '$DF_TYPE'"
@@ -108,15 +110,16 @@ function add() {
   upload
   echo -e "\nDone\n"
 }
+
 if [ -z $1 ]; then
-    usage;
+  usage;
 fi
 if [ -z "$DOTFILES_SOURCE_DIR" ]; then
-   echo -e "environent variable DOTFILES_SOURCE_DIR not set, have you forgot to log in/out after bootstrapping?"
-   echo -e "Aborting..."
-   exit
+  echo -e "environent variable DOTFILES_SOURCE_DIR not set, have you forgot to log in/out after bootstrapping?"
+  echo -e "Aborting..."
+  exit
 fi;
- case $1 in
+case $1 in
 
   u|upload)
     upload
@@ -133,7 +136,9 @@ fi;
   a|add)
     add
     ;;
+
   *)
     usage
     ;;
+
 esac

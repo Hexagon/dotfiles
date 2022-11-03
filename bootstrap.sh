@@ -23,49 +23,51 @@ cd "$DOTFILES_SOURCE_DIR"
 mkdir -p ~/scripts/global/
 yes | cp ./static/scripts/global/dotfiles ~/scripts/global/
 
-function allDone() {
-	
-	# Source dotfiles instantly
-	source ~/.bash_profile;
+if [ "$1" == "--force" -o "$1" == "-f" ]; then
 
-	echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-	echo -e "\n Dotfiles sucessfully installed/updated"
-	echo -e "\n Use .path or .extra for local customizations"
+	# Ok, carry on
+	echo "Forced bootstrap initated"
 
-	source ~/scripts/motd.sh
-	
-	echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
-}
+elif [[ -v CODESPACES ]]; then
 
+	# Ok, carry on
+	echo "Codespaces automated bootstrap initiated"
+
+else
+	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+	echo "";
+	if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+		# Ok, carry on
+		echo "Ok, overwriting files ..."
+
+	else
+
+		exit;
+
+	fi;
+fi;
+
+# Download dotfiles
+~/scripts/global/dotfiles download
+
+# Run codespaces specific actions
 if [[ -v CODESPACES ]]; then
     echo -e "\nCodespaces detected, auto installing Deno and Bun\n"
-
-	# Download dotfiles
-	~/scripts/global/dotfiles --download
     
 	# Install deno/bun
 	~/scripts/install_bun.sh
-        ~/scripts/install_deno.sh
-
-	allDone;
-else
-    if [ "$1" == "--force" -o "$1" == "-f" ]; then
-
-		# Download dotfiles
-		~/scripts/global/dotfiles --download
-
-		allDone;
-    else
-    	read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-    	echo "";
-    	if [[ $REPLY =~ ^[Yy]$ ]]; then
-
-			# Download dotfiles
-			~/scripts/global/dotfiles --download
-
-			allDone;
-    	fi;
-    fi;
+    ~/scripts/install_deno.sh
 fi;
 
-unset allDone;
+# Source dotfiles instantly
+source ~/.bash_profile
+
+echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo -e "\n Dotfiles sucessfully installed/updated"
+echo -e "\n Use .path or .extra for local customizations"
+
+# Print motd
+source ~/scripts/motd.sh
+
+echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
