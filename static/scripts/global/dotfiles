@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DF_FILENAME="$2"
+DF_TYPE="$3"
+
 # Check arguments
 function usage() {
     echo " $(basename $0) [-u,--upload|-d,--download|-f,--full]"
@@ -81,6 +84,26 @@ function full() {
     download
     upload
 }
+function add() {
+  if [ -z "$DF_FILENAME" ]; then
+      echo "Filename missing"
+      usage;
+  fi
+  if [ -z "$DF_TYPE" ]; then
+      echo "Type missing"
+      usage;
+  fi
+  if ! [[ -d "$DOTFILES_SOURCE_DIR/$DF_TYPE" ]]; then
+    echo "Invalid dotfile type '$DF_TYPE'"
+    usage;
+  fi
+  echo -e "\nAdding file $DF_FILENAME as $DF_TYPE dotfile"
+  cp $DF_FILENAME "$DOTFILES_SOURCE_DIR/$DF_TYPE/"
+  git add "$DOTFILES_SOURCE_DIR/$DF_TYPE/"
+  echo -e "\nUploading to git...\n"
+  upload
+  echo -e "\nDone\n"
+}
 if [ -z $1 ]; then
     usage;
 fi
@@ -91,18 +114,21 @@ if [ -z "$DOTFILES_SOURCE_DIR" ]; then
 fi;
  case $1 in
 
-  -u|--upload)
+  u|upload)
     upload
     ;;
 
-  -d|--download)
+  d|download)
     download
     ;;
 
-  -f|--full)
+  f|full)
     full
     ;;
 
+  a|add)
+    add
+    ;;
   *)
     usage
     ;;
