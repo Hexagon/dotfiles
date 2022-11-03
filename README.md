@@ -4,6 +4,7 @@
 
 1. Checkout this repo on a suitable location, then enter the new folder
 2. Run `bootstrap.sh` to copy all relevant files in this repository to your home directory.
+3. Log out and in again, IMPORTANT.
 
 ### Keeping in sync
 

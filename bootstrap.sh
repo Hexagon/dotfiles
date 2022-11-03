@@ -5,6 +5,7 @@ CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )";
 
 # Set content of ~/.dotfiles_dir to CURRENT_DIR
 echo -e "export DOTFILES_SOURCE_DIR='$CURRENT_DIR'\n" > ~/.dotfiles_dir;
+export DOTFILES_SOURCE_DIR="$CURRENT_DIR"
 
 # Instantly set DOTFILES_SOURCE_DIR by sourcing ~/.dotfiles_dir
 source ~/.dotfiles_dir;
@@ -44,7 +45,7 @@ if [[ -v CODESPACES ]]; then
     
 	# Install deno/bun
 	~/scripts/install_bun.sh
-    ~/scripts/install_deno.sh
+        ~/scripts/install_deno.sh
 
 	allDone;
 else

@@ -84,7 +84,12 @@ function full() {
 if [ -z $1 ]; then
     usage;
 fi
-case $1 in
+if [ -z "$DOTFILES_SOURCE_DIR" ]; then
+   echo -e "environent variable DOTFILES_SOURCE_DIR not set, have you forgot to log in/out after bootstrapping?"
+   echo -e "Aborting..."
+   exit
+fi;
+ case $1 in
 
   -u|--upload)
     upload
