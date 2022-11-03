@@ -89,7 +89,7 @@ function add() {
       echo "Filename missing"
       usage;
   fi
-  if [ -f "$DF_FILENAME" ]; then
+  if ! [[ -f "$DF_FILENAME" ]]; then
       echo "File does not exist"
       usage;
   fi
