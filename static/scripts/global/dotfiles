@@ -20,7 +20,7 @@ function upload() {
 
     # Copy files
     rsync --exclude ".git/" \
-		-rptgoE --existing ~ .;
+		-rptgoE --ignore-non-existing ~ .;
 
     cd ..;
 
@@ -53,7 +53,7 @@ function download() {
 
 	# Copy files
 	rsync --exclude ".git/" \
-		-rptgoE . ~;
+		--update -rptgoE . ~;
 
     cd ..
 
@@ -71,14 +71,15 @@ function download() {
 
     # Copy files
     rsync --exclude ".git/" \
-		-rptgoE . ~;
+		--update -rptgoE . ~;
 
     cd ..;
 
 	
 }
 function full() {
-    exit
+    download
+    upload
 }
 if [ -z $1 ]; then
     usage;
