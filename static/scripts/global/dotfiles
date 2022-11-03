@@ -61,7 +61,7 @@ function download() {
     cd ..
 
     # Enter template folder
-	cd static;
+	cd templates;
 
 	# Copy files
 	rsync --exclude ".git/" \
