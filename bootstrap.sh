@@ -71,3 +71,5 @@ echo -e "\n Use .path or .extra for local customizations"
 source ~/scripts/motd.sh
 
 echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
+
+echo -e "\nIMPORTANT: Before doing anything else, either log in/out, or run 'source ~/.bash_profile'\n"
