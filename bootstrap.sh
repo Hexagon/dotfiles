@@ -72,4 +72,4 @@ source ~/scripts/motd.sh
 
 echo -e "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n"
 
-echo -e "IMPORTANT: Before doing anything else, either log in/out\n           or run 'source ~/.bash_profile' manually\n"
+echo -e "IMPORTANT: Before doing anything else, either log in/out\n           or run 'source ~/.bash_profile' or 'source ~/.zshrc' manually\n"
