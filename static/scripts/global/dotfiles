@@ -53,7 +53,7 @@ function download() {
 
 	# Copy files
 	rsync --exclude ".git/" \
-		--update -rptgoE . ~;
+		-rptgoE . ~;
 
     cd ..
 
