@@ -7,6 +7,9 @@
 export EDITOR='nano'
 export VISUAL='nano'
 
+# set PATH so it includes user's private bin directories
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
 # Always have bun in path if available 
 if [ -d "$HOME/.bun" ]; then
     export BUN_INSTALL="$HOME/.bun" 

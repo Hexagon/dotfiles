@@ -1,7 +1,15 @@
 # THIS FILE IS PART OF THE DOTFILES REPO
 # PLEASE DO NOT EDIT DIRECTLY.
-# 
+#
 # CREATE/EDIT .extra OR .path FOR LOCAL CUSTOMIZATIONS
+
+# if running bash
+if [ -n "$BASH_VERSION" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+        . "$HOME/.bashrc"
+    fi
+fi
 
 # Load the shell dotfiles
 for file in ~/.{path,bash_prompt,exports,bash_aliases,dotfiles_dir,extra}; do

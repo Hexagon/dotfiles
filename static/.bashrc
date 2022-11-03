@@ -10,5 +10,3 @@ case $- in
     *i*) ;;
       *) return;;
 esac
-
-source ~/.bash_profile;
