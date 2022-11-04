@@ -103,8 +103,15 @@ function add() {
     echo "Invalid dotfile type '$DF_TYPE'"
     usage;
   fi
+  
+  # Copy file
   echo -e "\nAdding file $DF_FILENAME as $DF_TYPE dotfile"
   cp $DF_FILENAME "$DOTFILES_SOURCE_DIR/$DF_TYPE/"
+  
+  # Enter directory
+  cd "$DOTFILES_SOURCE_DIR/$DF_TYPE/"
+
+  # Add file to git and upload
   git add "$DOTFILES_SOURCE_DIR/$DF_TYPE/"
   echo -e "\nUploading to git...\n"
   upload
