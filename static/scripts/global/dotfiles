@@ -79,6 +79,9 @@ function download() {
 
   cd ..;
 
+  # Show message that shell profile is updated
+  echo -e "IMPORTANT: Dotfiles might have changed, either log in/out\n           or run 'source ~/.bash_profile' or 'source ~/.zshrc' manually\n"
+
 }
 
 function full() {
